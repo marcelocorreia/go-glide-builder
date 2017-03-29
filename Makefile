@@ -10,6 +10,7 @@ default: check
 
 build:
 	docker build -t $(CONTAINER_NAME):$(CONTAINER_VERSION) .
+	docker build -t $(CONTAINER_NAME):latest .
 .PHONY: build
 
 test:
@@ -24,5 +25,6 @@ test:
 
 push: build
 	docker push $(CONTAINER_NAME):$(CONTAINER_VERSION)
+	docker push $(CONTAINER_NAME):latest
 .PHONY: push
 
