@@ -1,22 +1,12 @@
-include env.mk
 CONTAINER_NAME=marcelocorreia/go-glide-builder
 CONTAINER_VERSION=0.0.1
 IMAGE_SOURCE=debian/jessie-slim
-##
-REPO_NAME=go-glide-builder
-IMAGE_GITHUB_RELEASE=socialengine/github-release
-DOCKER_WORKING_DIR=/go/src/github.com/marcelocorreia/go-glide-builder
-GITHUB_TOKEN?=WILL_BE_OVERWRITTEN
-GITHUB_USER=marcelocorreia
-RELEASE_VERSION=0.1
-RELEASE_DESC="Go Glide Builder"
-OUTPUT_FILE=hello-world
+
 # Test Stuff
 TEST_APP=hello-world
 TEST_NAMESPACE=github.com/marcelocorreia
-IMAGE_GO_GLIDE=marcelocorreia/go-glide-builder:0.0.1
 
-default: test
+default: check
 
 build:
 	docker build -t $(CONTAINER_NAME):$(CONTAINER_VERSION) .
