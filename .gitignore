@@ -1,6 +1,8 @@
 *.iml
+.glide
 .idea/
 bin/
+dist/
+env.mk
 glide.lock
-.glide
 vendor/
