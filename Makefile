@@ -45,7 +45,7 @@ github-info:
 github-release: package
 	git add --all
 	git commit -m "Release checkpoint: $(RELEASE_VERSION)"
-	git push origin/master
+	git push -u origin/master
 	@$(call githubRelease, release, -t "$(RELEASE_VERSION)")
 
 github-upload:
