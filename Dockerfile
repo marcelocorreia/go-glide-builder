@@ -15,6 +15,7 @@ RUN ln -fs /usr/share/zoneinfo/Australia/Sydney /etc/localtime && dpkg-reconfigu
 ENV GOPATH=/go
 ENV PATH="${PATH}:/usr/local/go/bin"
 WORKDIR /
+RUN apt-get install -y lsb
 
 
 
