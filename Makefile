@@ -1,3 +1,4 @@
+include env.mk
 CONTAINER_NAME=marcelocorreia/go-glide-builder
 CONTAINER_VERSION=0.0.1
 IMAGE_SOURCE=debian/jessie-slim
@@ -5,11 +6,10 @@ IMAGE_SOURCE=debian/jessie-slim
 REPO_NAME=go-glide-builder
 IMAGE_GITHUB_RELEASE=socialengine/github-release
 DOCKER_WORKING_DIR=/go/src/github.com/marcelocorreia/go-glide-builder
-GITHUB_TOKEN?=657208e8d4828b952ab3d1386f0534d64a5a75dc
+GITHUB_TOKEN?=WILL_BE_OVERWRITTEN
 GITHUB_USER=marcelocorreia
 RELEASE_VERSION=0.1
 RELEASE_DESC="Go Glide Builder"
-OUTPUT_DIR=./bin
 OUTPUT_FILE=hello-world
 # Test Stuff
 TEST_APP=hello-world
@@ -42,9 +42,11 @@ github-info:
 	@$(call githubRelease, info)
 .PHONY: github-info
 
-github-release:
+github-release: package
+	git add --all
+	git commit -m "Release checkpoint: $(RELEASE_VERSION)"
+	git push
 	@$(call githubRelease, release, -t "$(RELEASE_VERSION)")
-
 
 github-upload:
 	@$(call githubRelease, upload, -t "$(RELEASE_VERSION)" -f "./dist/linux/$(OUTPUT_FILE)-$(RELEASE_VERSION)-linux-amd64.tar.gz" -n "$(OUTPUT_FILE)-$(RELEASE_VERSION)-linux-amd64.tar.gz")
@@ -53,7 +55,7 @@ package: _clean test
 	$(call buildLinuxPackage)
 
 _clean:
-	@rm -rf $(OUTPUT_DIR)/* ./dist/* ./tmp/*
+	@rm -rf bin/* ./dist/* ./tmp/*
 
 ##
 define githubRelease
