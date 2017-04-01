@@ -1,12 +1,9 @@
 CONTAINER_NAME=marcelocorreia/go-glide-builder
 CONTAINER_VERSION=0.0.1
-IMAGE_SOURCE=debian/jessie-slim
 
 # Test Stuff
 TEST_APP=hello-world
 TEST_NAMESPACE=github.com/marcelocorreia
-
-default: check
 
 build:
 	docker build -t $(CONTAINER_NAME):$(CONTAINER_VERSION) .
