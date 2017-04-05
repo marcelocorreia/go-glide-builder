@@ -14,4 +14,3 @@ outputs:
 
 run:
   path: /bin/ls
-  args: [ ]
