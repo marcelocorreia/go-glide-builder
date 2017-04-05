@@ -41,6 +41,9 @@ package: _clean test
 _clean:
 	@rm -rf bin/* ./dist/* ./tmp/*
 
+pipeline:
+	fly -t ci set-pipeline -p go-glide-builder -c ./ci/build.yml
+
 ##
 define githubRelease
 	docker run --rm \
