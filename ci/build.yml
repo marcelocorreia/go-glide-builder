@@ -15,4 +15,4 @@ outputs:
 
 run:
   path: /bin/ls
-  args: [ -l ]
+  args: [ ]

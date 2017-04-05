@@ -13,4 +13,4 @@ jobs:
 
       - task: build
 
-        file: "./ci/build.yml"
+        file: goglidebuilder/ci/build.yml
