@@ -1,12 +1,12 @@
 resources:
-- name: go_glide_builder
-  type: git
-  source:
-    uri: https://github.com/marcelocorreia/go-glide-builder.git
-    branch: master
+  - name: go_glide_builder
+    type: git
+    source:
+      uri: https://github.com/marcelocorreia/go-glide-builder.git
+      branch: master
 
 jobs:
-- name: build
+- name: build-container
   plan:
   - get: go_glide_builder
   - task: tests
