@@ -13,4 +13,5 @@ outputs:
   - name: built-project
 
 run:
-  path: /bin/ls -l
+  path: /bin/ls
+  args: -l
