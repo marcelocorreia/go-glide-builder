@@ -9,9 +9,6 @@ image_resource:
 inputs:
   - name: go_glide_builder
 
-outputs:
-  - name: built-project
 
 run:
   path: /bin/ls
-  args: -l

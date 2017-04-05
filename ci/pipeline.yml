@@ -10,4 +10,4 @@ jobs:
     plan:
       - get: goglidebuilder
       - task: unit
-        file: ./ci/build.yml
+        file: "./ci/build.yml"
