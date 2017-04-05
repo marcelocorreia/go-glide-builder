@@ -11,3 +11,19 @@ jobs:
   - get: go_glide_builder
   - task: build
     file: ./ci/build.yml
+
+
+
+resources:
+  - name: goglidebuilder
+    type: git
+    source:
+      uri: https://github.com/marcelocorreia/go-glide-builder.git
+      branch: master
+
+jobs:
+  - name: build
+    plan:
+      - get: goglidebuilder
+      - task: unit
+        file: ci/build.yml
