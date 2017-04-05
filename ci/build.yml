@@ -8,6 +8,7 @@ image_resource:
 
 inputs:
   - name: go_glide_builder
+    path: .
 
 outputs:
   - name: /tmp/
