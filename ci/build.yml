@@ -10,4 +10,4 @@ jobs:
   plan:
   - get: go_glide_builder
   - task: tests
-    file: go_glide_builder/ci/build.yml
+    file: ./ci/build.yml
