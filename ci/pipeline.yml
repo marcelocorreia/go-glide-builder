@@ -1,20 +1,4 @@
 resources:
-  - name: go_glide_builder
-    type: git
-    source:
-      uri: https://github.com/marcelocorreia/go-glide-builder.git
-      branch: master
-
-jobs:
-- name: build-container
-  plan:
-  - get: go_glide_builder
-  - task: build
-    file: ./ci/build.yml
-
-
-
-resources:
   - name: goglidebuilder
     type: git
     source:
