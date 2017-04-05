@@ -3,10 +3,11 @@ platform: linux
 
 image_resource:
   type: docker-image
-
+  source:
+    repository:  marcelocorreia/go-glide-builder
 
 inputs:
 - name: go_glide_builder
 
 run:
-  path: make build
+  path: /bin/ls -l
