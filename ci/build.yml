@@ -7,7 +7,10 @@ image_resource:
     repository:  marcelocorreia/go-glide-builder
 
 inputs:
-- name: go_glide_builder
+  - name: go_glide_builder
+
+outputs:
+  - name: built-project
 
 run:
   path: /bin/ls -l
