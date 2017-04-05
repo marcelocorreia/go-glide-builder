@@ -10,6 +10,5 @@ jobs:
     plan:
       - get: goglidebuilder
         trigger: true
-
       - task: build
         file: goglidebuilder/ci/build.yml
