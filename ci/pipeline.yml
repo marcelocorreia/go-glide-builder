@@ -9,5 +9,8 @@ jobs:
   - name: build
     plan:
       - get: goglidebuilder
-      - task: unit
+        trigger: true
+
+      - task: build
+
         file: "./ci/build.yml"
