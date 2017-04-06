@@ -54,6 +54,9 @@ package: _clean test
 _clean:
 	@rm -rf bin/* ./dist/* ./tmp/*
 
+blah:
+	docker run --rm $(CONTAINER_NAME):latest
+
 pipeline:
 	fly -t ci set-pipeline -p go-glide-builder -c ./ci/build.yml
 
@@ -69,4 +72,12 @@ endef
 define buildLinuxPackage
     @[ -f ./dist/linux ] && echo dist folder found, skipping creation || mkdir -p ./dist/linux
     tar -cvzf ./dist/linux/$(OUTPUT_FILE)-$(RELEASE_VERSION)-linux-amd64.tar.gz -C ./bin .
+endef
+
+define bumpVersionMinor
+	docker run --rm \
+    -v $(shell pwd):$(DOCKER_WORKING_DIR) \
+    -w $(DOCKER_WORKING_DIR) \
+    $(IMAGE_GO_GLIDE) \
+    bash -c "github-release  $1 -s $(GITHUB_TOKEN) -u $(GITHUB_USER) -r $(REPO_NAME) $2"
 endef
