@@ -11,7 +11,7 @@ inputs:
   - name: goglidebuilder
 
 run:
-  dir: goglidebuild
+  dir: goglidebuilder
   path: make
   args: [ build ]
 
