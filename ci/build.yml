@@ -17,6 +17,6 @@ run:
 
 run:
   dir: goglidebuilder
-  path: docker
-  args: [ build, -t, marcelocorreia/go-glider-builder, . ]
+  path: sudo
+  args: [ docker, build, -t, marcelocorreia/go-glider-builder, . ]
 
