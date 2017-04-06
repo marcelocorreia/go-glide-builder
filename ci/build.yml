@@ -1,0 +1,14 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: alpine
+    tag: '3.3'
+
+inputs:
+  - name: goglidebuilder
+
+run:
+  path: /bin/ls

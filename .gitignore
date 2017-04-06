@@ -1,8 +1,13 @@
 *.iml
+.glide
 .idea/
 bin/
-glide.lock
-.glide
+dist/
+env.mk
 vendor/
+<<<<<<< HEAD
 dist/
 .vagrant/
+=======
+.vagrant/
+>>>>>>> af04defb8c492c3866042ffaa561cf9d07fb7a29

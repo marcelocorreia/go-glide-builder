@@ -7,7 +7,7 @@ IMAGE_GITHUB_RELEASE=socialengine/github-release
 DOCKER_WORKING_DIR=/go/src/github.com/marcelocorreia/go-glide-builder
 GITHUB_TOKEN?=
 GITHUB_USER=marcelocorreia
-RELEASE_VERSION=0.2
+RELEASE_VERSION=0.1
 RELEASE_DESC="Go Glide Builder"
 OUTPUT_DIR=./bin
 OUTPUT_FILE=hello-world
@@ -42,9 +42,8 @@ github-info:
 	@$(call githubRelease, info)
 .PHONY: github-info
 
-github-release:
+github-release: package
 	@$(call githubRelease, release, -t "$(RELEASE_VERSION)")
-
 
 github-upload:
 	@$(call githubRelease, upload, -t "$(RELEASE_VERSION)" -f "./dist/linux/$(OUTPUT_FILE)-$(RELEASE_VERSION)-linux-amd64.tar.gz" -n "$(OUTPUT_FILE)-$(RELEASE_VERSION)-linux-amd64.tar.gz")
@@ -53,7 +52,10 @@ package: _clean test
 	$(call buildLinuxPackage)
 
 _clean:
-	@rm -rf $(OUTPUT_DIR)/* ./dist/* ./tmp/*
+	@rm -rf bin/* ./dist/* ./tmp/*
+
+pipeline:
+	fly -t ci set-pipeline -p go-glide-builder -c ./ci/build.yml
 
 ##
 define githubRelease
