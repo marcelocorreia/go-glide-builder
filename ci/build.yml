@@ -11,5 +11,5 @@ inputs:
   - name: goglidebuilder
 
 run:
-  path: echo
-  args: [$PWD]
+  path: pwd
+
