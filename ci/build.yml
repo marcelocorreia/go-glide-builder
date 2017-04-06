@@ -12,6 +12,6 @@ inputs:
 
 run:
   dir: goglidebuild
-  path: ls
-  args: [ -l ]
+  path: make
+  args: [ build ]
 
