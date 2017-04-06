@@ -4,3 +4,5 @@ bin/
 glide.lock
 .glide
 vendor/
+dist/
+.vagrant/
