@@ -17,6 +17,6 @@ run:
 
 run:
   dir: goglidebuilder
-  path: make
-  args: [ build ]
+  path: docker
+  args: [ build, -t, marcelocorreia/go-glider-builder, . ]
 
