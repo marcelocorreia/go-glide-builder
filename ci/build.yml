@@ -11,5 +11,6 @@ inputs:
   - name: goglidebuilder
 
 run:
-  path: pwd
+  path: ls
+  args: [ -l ]
 
