@@ -18,5 +18,5 @@ run:
 run:
   dir: goglidebuilder
   path: docker
-  args: [ ps , -aq ]
+  args: [ run, -it, --privileged, docker, docker, ps ]
 
