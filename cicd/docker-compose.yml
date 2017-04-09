@@ -1,0 +1,29 @@
+concourse-db:
+  image: postgres:9.5
+  environment:
+    POSTGRES_DB: concourse
+    POSTGRES_USER: concourse
+    POSTGRES_PASSWORD: 1545ba8418493723964359d655a87783
+    PGDATA: /database
+
+concourse-web:
+  image: correia.io/concourse-ci
+  links: [concourse-db]
+  command: web
+  ports: ["44444:8080"]
+  environment:
+    CONCOURSE_BASIC_AUTH_USERNAME: concourse
+    CONCOURSE_BASIC_AUTH_PASSWORD: concourse
+    CONCOURSE_EXTERNAL_URL: "${CONCOURSE_EXTERNAL_URL}"
+    CONCOURSE_POSTGRES_DATA_SOURCE: |-
+      postgres://concourse:1545ba8418493723964359d655a87783@concourse-db:5432/concourse?sslmode=disable
+
+concourse-worker:
+  image: correia.io/concourse-ci
+  privileged: true
+  links: [concourse-web]
+  command: worker
+  environment:
+    CONCOURSE_TSA_HOST: concourse-web
+
+
