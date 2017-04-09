@@ -30,7 +30,8 @@ resources:
       driver: git
       initial_version: 0.0.1
       uri: {{git_repo_url}}
-      branch: master
+      branch: version
+
       file: version
       private_key: {{git_private_key}}
       username: {{github_user}}
