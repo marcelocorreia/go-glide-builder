@@ -19,14 +19,14 @@ IMAGE_GO_GLIDE=marcelocorreia/go-glide-builder:0.0.1
 default: test
 
 pipeline-update:
-	fly -t lite set-pipeline \
+	fly -t main set-pipeline \
 		-n -p go-glide-builder \
 		-c cicd/pipelines/pipeline.yml \
 		-l /home/marcelo/.ssh/ci-credentials.yml \
 		-v git_repo_url=git@github.com:marcelocorreia/go-glide-builder.git \
         -v container_fullname=marcelocorreia/go-glide-builder \
         -v container_name=go-glide-builder
-
+	fly -t main unpause-pipeline -p go-glide-builder
 build:
 	docker build -t $(CONTAINER_NAME):$(CONTAINER_VERSION) .
 	docker build -t $(CONTAINER_NAME):latest .
