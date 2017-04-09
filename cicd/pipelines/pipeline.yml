@@ -1,0 +1,65 @@
+resources:
+  - name: dockerfile
+    type: git
+    source:
+      uri: {{git_repo_url}}
+      branch: master
+      paths: [Dockerfile]
+      private_key: {{git_private_key}}
+      username: {{github_user}}
+
+  - name: git_repo
+    type: git
+    source:
+      uri: {{git_repo_url}}
+      branch: master
+      private_key: {{git_private_key}}
+      username: {{github_user}}
+
+  - name: docker_image
+    type: docker-image
+    source:
+      repository: {{container_fullname}}
+      email: {{docker_mail}}
+      username: {{docker_user}}
+      password: {{docker_password}}
+
+  - name: resource_version
+    type: semver
+    source:
+      driver: git
+      initial_version: 0.0.1
+      uri: {{git_repo_url}}
+      branch: version
+
+      file: version
+      private_key: {{git_private_key}}
+      username: {{github_user}}
+
+  - name: gh-release
+    type: github-release
+    source:
+      user: {{github_user}}
+      repository: docker-nginx
+      access_token: {{github_token}}
+
+jobs:
+  - name: {{container_name}}
+    serial: true
+    plan:
+      - get: dockerfile
+        trigger: true
+      - get: git_repo
+        trigger: true
+      - put: resource_version
+        params: {bump: patch}
+      - put: docker_image
+        params: {build: dockerfile}
+      - put: docker_image
+        params: {build: dockerfile, tag: resource_version/version }
+      - put: resource_version
+        params: {file: resource_version/version}
+      - put: gh-release
+        params:
+          name: resource_version/version
+          tag: resource_version/version

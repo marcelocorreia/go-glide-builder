@@ -1,6 +1,6 @@
 CONTAINER_NAME=marcelocorreia/go-glide-builder
 CONTAINER_VERSION=0.0.1
-IMAGE_SOURCE=debian/jessie-slim
+IMAGE_SOURCE=alpine:3.5
 ##
 REPO_NAME=go-glide-builder
 IMAGE_GITHUB_RELEASE=socialengine/github-release
@@ -17,6 +17,15 @@ TEST_NAMESPACE=github.com/marcelocorreia
 IMAGE_GO_GLIDE=marcelocorreia/go-glide-builder:0.0.1
 
 default: test
+
+pipeline-update:
+	fly -t lite set-pipeline \
+		-n -p go-glide-builder \
+		-c cicd/pipelines/pipeline.yml \
+		-l /home/marcelo/.ssh/ci-credentials.yml \
+		-v git_repo_url=git@github.com:marcelocorreia/go-glide-builder.git \
+        -v container_fullname=marcelocorreia/go-glide-builder \
+        -v container_name=go-glide-builder
 
 build:
 	docker build -t $(CONTAINER_NAME):$(CONTAINER_VERSION) .
@@ -55,7 +64,7 @@ _clean:
 	@rm -rf bin/* ./dist/* ./tmp/*
 
 blah:
-	docker run --rm $(CONTAINER_NAME):latest
+	docker run --rm $(CONTAINER_NAME):latest tail -f /dev/null
 
 pipeline:
 	fly -t ci set-pipeline -p go-glide-builder -c ./ci/build.yml
