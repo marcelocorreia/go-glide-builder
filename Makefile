@@ -19,14 +19,14 @@ IMAGE_GO_GLIDE=marcelocorreia/go-glide-builder:0.0.1
 default: test
 
 pipeline-update:
-	fly -t main set-pipeline \
+	fly -t dev set-pipeline \
 		-n -p go-glide-builder \
 		-c cicd/pipelines/pipeline.yml \
-		-l /home/marcelo/.ssh/ci-credentials.yml \
+		-l /Users/marcelo/.ssh/ci-credentials.yml \
 		-v git_repo_url=git@github.com:marcelocorreia/go-glide-builder.git \
         -v container_fullname=marcelocorreia/go-glide-builder \
         -v container_name=go-glide-builder
-	fly -t main unpause-pipeline -p go-glide-builder
+	fly -t dev unpause-pipeline -p go-glide-builder
 build:
 	docker build -t $(CONTAINER_NAME):$(CONTAINER_VERSION) .
 	docker build -t $(CONTAINER_NAME):latest .
@@ -63,11 +63,6 @@ package: _clean test
 _clean:
 	@rm -rf bin/* ./dist/* ./tmp/*
 
-blah:
-	docker run --rm $(CONTAINER_NAME):latest tail -f /dev/null
-
-pipeline:
-	fly -t ci set-pipeline -p go-glide-builder -c ./ci/build.yml
 
 ##
 define githubRelease
