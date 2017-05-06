@@ -33,14 +33,15 @@ build:
 .PHONY: build
 
 test:
-	docker run --rm \
+	@docker run --rm \
 	-v $(shell pwd):/go/src/$(TEST_NAMESPACE)/$(TEST_APP) \
 	-w /go/src/$(TEST_NAMESPACE)/$(TEST_APP) \
 	$(CONTAINER_NAME):$(CONTAINER_VERSION) \
 	bash -c "glide install; go fmt .; go test -v; go build -o ./bin/$(TEST_APP)"
-	sudo chown -R $(shell whoami): ./bin ./vendor ./.glide
-	./bin/$(TEST_APP)
 .PHONY: test
+
+eita: clean
+	glide install; go fmt .; go test -v; go build -o ./bin/$(TEST_APP)
 
 push: build
 	docker push $(CONTAINER_NAME):$(CONTAINER_VERSION)
@@ -57,10 +58,10 @@ github-release: package
 github-upload:
 	@$(call githubRelease, upload, -t "$(RELEASE_VERSION)" -f "./dist/linux/$(OUTPUT_FILE)-$(RELEASE_VERSION)-linux-amd64.tar.gz" -n "$(OUTPUT_FILE)-$(RELEASE_VERSION)-linux-amd64.tar.gz")
 
-package: _clean test
+package: clean test
 	$(call buildLinuxPackage)
 
-_clean:
+clean:
 	@rm -rf bin/* ./dist/* ./tmp/*
 
 
