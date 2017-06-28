@@ -1,6 +1,6 @@
 CONTAINER_NAME=marcelocorreia/go-glide-builder
 CONTAINER_VERSION=0.0.1
-IMAGE_SOURCE=alpine:3.5
+
 ##
 REPO_NAME=go-glide-builder
 IMAGE_GITHUB_RELEASE=socialengine/github-release
@@ -18,7 +18,10 @@ IMAGE_GO_GLIDE=marcelocorreia/go-glide-builder:0.0.1
 
 default: test
 
-pipeline-update:
+git-push:
+	git add .; git commit -m "Pipeline WIP"; git push
+
+set-pipeline: git-push
 	fly -t dev set-pipeline \
 		-n -p go-glide-builder \
 		-c cicd/pipelines/pipeline.yml \
@@ -27,6 +30,7 @@ pipeline-update:
         -v container_fullname=marcelocorreia/go-glide-builder \
         -v container_name=go-glide-builder
 	fly -t dev unpause-pipeline -p go-glide-builder
+
 build:
 	docker build -t $(CONTAINER_NAME):$(CONTAINER_VERSION) .
 	docker build -t $(CONTAINER_NAME):latest .
