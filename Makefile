@@ -1,6 +1,6 @@
 CONTAINER_NAME=marcelocorreia/go-glide-builder
 CONTAINER_VERSION=0.0.1
-IMAGE_SOURCE=alpine:3.5
+
 ##
 REPO_NAME=go-glide-builder
 IMAGE_GITHUB_RELEASE=socialengine/github-release
@@ -18,29 +18,34 @@ IMAGE_GO_GLIDE=marcelocorreia/go-glide-builder:0.0.1
 
 default: test
 
-pipeline-update:
-	fly -t main set-pipeline \
+git-push:
+	git add .; git commit -m "Pipeline WIP"; git push
+
+set-pipeline: git-push
+	fly -t dev set-pipeline \
 		-n -p go-glide-builder \
 		-c cicd/pipelines/pipeline.yml \
-		-l /home/marcelo/.ssh/ci-credentials.yml \
+		-l /Users/marcelo/.ssh/ci-credentials.yml \
 		-v git_repo_url=git@github.com:marcelocorreia/go-glide-builder.git \
         -v container_fullname=marcelocorreia/go-glide-builder \
         -v container_name=go-glide-builder
-	fly -t main unpause-pipeline -p go-glide-builder
+	fly -t dev unpause-pipeline -p go-glide-builder
+
 build:
 	docker build -t $(CONTAINER_NAME):$(CONTAINER_VERSION) .
 	docker build -t $(CONTAINER_NAME):latest .
 .PHONY: build
 
 test:
-	docker run --rm \
+	@docker run --rm \
 	-v $(shell pwd):/go/src/$(TEST_NAMESPACE)/$(TEST_APP) \
 	-w /go/src/$(TEST_NAMESPACE)/$(TEST_APP) \
 	$(CONTAINER_NAME):$(CONTAINER_VERSION) \
 	bash -c "glide install; go fmt .; go test -v; go build -o ./bin/$(TEST_APP)"
-	sudo chown -R $(shell whoami): ./bin ./vendor ./.glide
-	./bin/$(TEST_APP)
 .PHONY: test
+
+eita: clean
+	glide install; go fmt .; go test -v; go build -o ./bin/$(TEST_APP)
 
 push: build
 	docker push $(CONTAINER_NAME):$(CONTAINER_VERSION)
@@ -57,17 +62,12 @@ github-release: package
 github-upload:
 	@$(call githubRelease, upload, -t "$(RELEASE_VERSION)" -f "./dist/linux/$(OUTPUT_FILE)-$(RELEASE_VERSION)-linux-amd64.tar.gz" -n "$(OUTPUT_FILE)-$(RELEASE_VERSION)-linux-amd64.tar.gz")
 
-package: _clean test
+package: clean test
 	$(call buildLinuxPackage)
 
-_clean:
+clean:
 	@rm -rf bin/* ./dist/* ./tmp/*
 
-blah:
-	docker run --rm $(CONTAINER_NAME):latest tail -f /dev/null
-
-pipeline:
-	fly -t ci set-pipeline -p go-glide-builder -c ./ci/build.yml
 
 ##
 define githubRelease
