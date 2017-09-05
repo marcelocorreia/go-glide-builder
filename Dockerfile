@@ -1,4 +1,4 @@
-FROM golang:1.8.3-alpine
+FROM golang:1.9.0-alpine
 MAINTAINER Marcelo Correia <marcelo.correia@starvisitor.com>
 ARG glide_version="v0.12.3"
 
