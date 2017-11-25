@@ -1,6 +1,6 @@
 FROM golang:1.9.2-alpine3.6
 MAINTAINER Marcelo Correia <marcelo.correia@starvisitor.com>
-ARG glide_version="v0.12.3"
+ARG glide_version="v0.13.1"
 
 RUN apk update
 RUN apk add ca-certificates
