@@ -5,8 +5,8 @@ RUN apk update
 RUN apk add ca-certificates
 RUN update-ca-certificates
 RUN apk add openssl git
+RUN apk add make bash curl
 RUN curl https://glide.sh/get | sh
-RUN apk add make bash
 
 ENV PATH="${PATH}:/usr/local/go/bin"
 
