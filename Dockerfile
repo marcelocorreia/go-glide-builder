@@ -6,10 +6,7 @@ RUN apk update
 RUN apk add ca-certificates
 RUN update-ca-certificates
 RUN apk add openssl git
-RUN wget https://github.com/Masterminds/glide/releases/download/${glide_version}/glide-${glide_version}-linux-amd64.tar.gz
-
-RUN tar -xvzf glide-${glide_version}-linux-amd64.tar.gz
-RUN mv linux-amd64/glide /usr/local/bin/glide
+RUN curl https://glide.sh/get | sh
 RUN apk add make bash
 
 ENV PATH="${PATH}:/usr/local/go/bin"
