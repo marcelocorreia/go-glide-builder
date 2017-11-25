@@ -30,7 +30,7 @@ set-pipeline: git-push
         -v container_fullname=marcelocorreia/go-glide-builder \
         -v container_name=go-glide-builder
 	fly -t dev unpause-pipeline -p go-glide-builder
-	fly -t dev trigger-pipeline -p go-glide-builder
+	fly -t dev trigger-job -p go-glide-builder/go-glide-builder
 
 build:
 	docker build -t $(CONTAINER_NAME):$(CONTAINER_VERSION) .
