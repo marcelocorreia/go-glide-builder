@@ -8,6 +8,11 @@ RUN apk add openssl git
 RUN apk add make bash curl
 RUN curl https://glide.sh/get | sh
 
+RUN mkdir /tmp/gox
+RUN GOPATH=$(pwd) go get -u github.com/mitchellh/gox
+RUN mv bin/gox /usr/local/bin
+WORKDIR /tmp/gox
+
 ENV PATH="${PATH}:/usr/local/go/bin"
 
 WORKDIR /
