@@ -54,8 +54,6 @@ test:
 	bash -c "glide install; go fmt .; go test -v; go build -o ./bin/$(TEST_APP)"
 .PHONY: test
 
-eita: clean
-	glide install; go fmt .; go test -v; go build -o ./bin/$(TEST_APP)
 
 push: build
 	docker push $(CONTAINER_NAME):$(CONTAINER_VERSION)

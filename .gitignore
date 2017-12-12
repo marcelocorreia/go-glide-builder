@@ -6,3 +6,4 @@ bin/
 dist/
 env.mk
 vendor/
+*log
