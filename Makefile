@@ -14,12 +14,17 @@ OUTPUT_FILE=hello-world
 # Test Stuff
 TEST_APP=hello-world
 TEST_NAMESPACE=github.com/marcelocorreia
-IMAGE_GO_GLIDE=marcelocorreia/go-glide-builder:0.0.1
+IMAGE_GO_GLIDE=marcelocorreia/go-glide-builder:debian-stable-slim
+
+CONCOURSE_EXTERNAL_URL ?=http://localhost:8080
 
 default: test
 
 git-push:
 	git add .; git commit -m "Pipeline WIP"; git push
+
+pipeline-login:
+	fly -t dev login -n main -c $(CONCOURSE_EXTERNAL_URL)
 
 set-pipeline: git-push
 	fly -t dev set-pipeline \
@@ -45,6 +50,10 @@ build:
 	docker build -t $(CONTAINER_NAME):$(CONTAINER_VERSION) .
 	docker build -t $(CONTAINER_NAME):latest .
 .PHONY: build
+
+docker-shell:
+	docker run --rm -it marcelocorreia/go-glide-builder bash
+
 
 test:
 	@docker run --rm \
